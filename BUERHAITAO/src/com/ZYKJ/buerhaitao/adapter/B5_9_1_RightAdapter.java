@@ -50,12 +50,8 @@ public class B5_9_1_RightAdapter extends BaseAdapter {
 		DisplayMetrics dm = new DisplayMetrics();
 		context.getWindowManager().getDefaultDisplay().getMetrics(dm);
 		view.setWidth(dm.widthPixels / 3);
-		if (item != -1 && position == item) {
-			view.setBackgroundResource(R.drawable.b0_class_leftbg);
-		} else {
-			view.setBackgroundColor(Color.WHITE);
-		}
-		view.setHeight((dm.heightPixels - 120) / (getCount() + 1));
+		view.setBackgroundColor(android.graphics.Color.parseColor("#EC9F32"));//最右边的列表颜色
+		view.setHeight(200);
 //		view.setHeight(dm.heightPixels/10);
 //		view.setHeight(200);
 		view.setText(data.get(position).get("area_name"));

@@ -501,7 +501,7 @@ public final class R {
         public static final int aboutapp=0x7f080095;
         public static final int aboutus=0x7f080093;
         public static final int action_settings=0x7f08004e;
-        public static final int addAdress=0x7f0800ae;
+        public static final int addAdress=0x7f0800af;
         public static final int addNewAddress=0x7f08009b;
         public static final int add_five=0x7f08007f;
         public static final int address=0x7f08009a;
@@ -510,10 +510,11 @@ public final class R {
         /** 设置界面 
          */
         public static final int certification=0x7f080091;
-        public static final int comment=0x7f0800b0;
-        public static final int comment_hint=0x7f0800b1;
+        public static final int comment=0x7f0800b1;
+        public static final int comment_hint=0x7f0800b2;
         public static final int defaultaddress=0x7f080099;
         public static final int delateaddress=0x7f08009f;
+        public static final int detailAddress=0x7f0800a3;
         /**  弹出框的类型信息 
          */
         public static final int dialog_type_1=0x7f080056;
@@ -532,8 +533,8 @@ public final class R {
         public static final int dialog_type_8=0x7f08005d;
         public static final int dialog_type_9=0x7f08005e;
         public static final int dialog_type_more=0x7f080065;
-        public static final int exchange=0x7f0800ab;
-        public static final int exchangedetail=0x7f0800ad;
+        public static final int exchange=0x7f0800ac;
+        public static final int exchangedetail=0x7f0800ae;
         public static final int forgetPassWord=0x7f08008e;
         public static final int getregistcode=0x7f080090;
         public static final int haveget=0x7f080083;
@@ -560,7 +561,7 @@ public final class R {
         public static final int myactivity_tips=0x7f080078;
         /**  积分商城 
          */
-        public static final int mypoints=0x7f0800aa;
+        public static final int mypoints=0x7f0800ab;
         /**   收货地址 
          */
         public static final int name=0x7f080098;
@@ -569,15 +570,15 @@ public final class R {
         public static final int origen=0x7f0800a1;
         /**    积分详情 
          */
-        public static final int originOfPoints=0x7f0800a9;
+        public static final int originOfPoints=0x7f0800aa;
         public static final int phonenumber=0x7f08009d;
         public static final int po_shopinglist=0x7f080088;
-        public static final int pointsMall=0x7f0800ac;
+        public static final int pointsMall=0x7f0800ad;
         /**  积分详情页 
          */
         public static final int pointsdetail=0x7f080097;
         public static final int postnumber=0x7f08009e;
-        public static final int productInfo=0x7f0800af;
+        public static final int productInfo=0x7f0800b0;
         public static final int regist=0x7f08008f;
         public static final int resetpasswd=0x7f080092;
         public static final int setDefaultAddress=0x7f0800a2;
@@ -688,12 +689,12 @@ public final class R {
         public static final int updateapp=0x7f080094;
         /**    下拉刷新相关 
          */
-        public static final int xlistview_footer_hint_normal=0x7f0800a3;
-        public static final int xlistview_footer_hint_ready=0x7f0800a4;
-        public static final int xlistview_header_hint_loading=0x7f0800a8;
-        public static final int xlistview_header_hint_normal=0x7f0800a5;
-        public static final int xlistview_header_hint_ready=0x7f0800a7;
-        public static final int xlistview_header_last_time=0x7f0800a6;
+        public static final int xlistview_footer_hint_normal=0x7f0800a4;
+        public static final int xlistview_footer_hint_ready=0x7f0800a5;
+        public static final int xlistview_header_hint_loading=0x7f0800a9;
+        public static final int xlistview_header_hint_normal=0x7f0800a6;
+        public static final int xlistview_header_hint_ready=0x7f0800a8;
+        public static final int xlistview_header_last_time=0x7f0800a7;
         public static final int yes=0x7f080054;
     }
     public static final class style {

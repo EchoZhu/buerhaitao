@@ -48,7 +48,7 @@ public class B5_9_1_MiddleAdapter extends BaseAdapter {
 	public View getView(int position, View arg1, ViewGroup arg2) {
 		// TODO Auto-generated method stub
 		TextView view = new TextView(context);
-		view.setHeight(20);
+//		view.setHeight(20);
 		view.setGravity(Gravity.CENTER);
 		DisplayMetrics dm = new DisplayMetrics();
 		context.getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -59,6 +59,7 @@ public class B5_9_1_MiddleAdapter extends BaseAdapter {
 			view.setBackgroundResource(R.drawable.b0_class_middlebg);
 		}
 
+		view.setHeight(200);
 		view.setText(data.get(position).get("area_name"));
 		view.setTextColor(Color.DKGRAY);
 		view.setTag(data.get(position).get("area_id"));

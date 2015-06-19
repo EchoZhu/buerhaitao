@@ -100,8 +100,9 @@
   <string name="postnumber">邮政编码</string> 
   <string name="delateaddress">删除收货地址</string> 
   <string name="area">所在地区</string> 
-  <string name="origen">省、市、区</string> 
+  <string name="origen">省、市、区(点击选择区域)</string> 
   <string name="setDefaultAddress">设为默认收货地址</string> 
+  <string name="detailAddress">详细地址</string> 
 <!--   下拉刷新相关 -->
 <string name="xlistview_footer_hint_normal">查看更多</string>
 <string name="xlistview_footer_hint_ready">松开载入更多</string>

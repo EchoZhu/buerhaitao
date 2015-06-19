@@ -23,7 +23,11 @@ import com.ZYKJ.buerhaitao.view.MyListView;
 import com.ZYKJ.buerhaitao.view.RequestDailog;
 import com.external.maxwin.view.XListView.IXListViewListener;
 import com.loopj.android.http.JsonHttpResponseHandler;
-
+/**
+ * 我的收货地址
+ * @author zyk
+ *
+ */
 public class B5_9_MyAddressManagement extends BaseActivity implements IXListViewListener {
 
 	private MyListView listview_addresManagement;

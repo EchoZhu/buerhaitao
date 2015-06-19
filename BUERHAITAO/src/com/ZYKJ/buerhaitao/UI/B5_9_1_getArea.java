@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.ZYKJ.buerhaitao.adapter.B5_9_1_LeftAdapter;
 import com.ZYKJ.buerhaitao.adapter.B5_9_1_MiddleAdapter;
@@ -27,7 +28,11 @@ import com.ZYKJ.buerhaitao.utils.Tools;
 import com.ZYKJ.buerhaitao.view.ListViewForScroll;
 import com.ZYKJ.buerhaitao.view.RequestDailog;
 import com.loopj.android.http.JsonHttpResponseHandler;
-
+/**
+ * 选择区域（省-市-区）
+ * @author Administrator
+ *
+ */
 public class B5_9_1_getArea extends BaseActivity {
 	private int GetArea=1;
 	List<Map<String, String>> data = new ArrayList<Map<String, String>>();
@@ -37,6 +42,7 @@ public class B5_9_1_getArea extends BaseActivity {
 	private ListViewForScroll lv_class_middle = null;
 	private ListViewForScroll lv_class_right = null;
 	private int one = 0, two = 0;
+	String province[]=new String [30];
 	// 以上数据用不到
 //	B0_ClassLeftAdapter class_ada_one;
 //	B0_ClassMiddle_Adapter class_ada_two;
@@ -52,7 +58,7 @@ public class B5_9_1_getArea extends BaseActivity {
 	private LinearLayout ll_middle;
 	private LinearLayout ll_right;
 	private ScrollView m_scroll;
-	
+	private Bundle bundle ;
 	
 	String parent_id_middle = "";
 	String parent_id_right = "";
@@ -61,7 +67,9 @@ public class B5_9_1_getArea extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		initView(R.layout.ui_b5_9_1_getarea);
+		
 		RequestDailog.showDialog(this, "正在请求数据");
+		bundle=new Bundle();
 		if (data.size() == 0) {
 			HttpUtils.getArea(res_getArea,getSharedPreferenceValue("key"),"");
 		}
@@ -87,6 +95,7 @@ public class B5_9_1_getArea extends BaseActivity {
 		lv_class_left.setAdapter(class_ada_one);
 		lv_class_middle.setAdapter(class_ada_two);
 		lv_class_right.setAdapter(class_ada_three);
+		
 		lv_class_left.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -119,10 +128,12 @@ public class B5_9_1_getArea extends BaseActivity {
 					long arg3) {
 				two = arg2;
 				class_ada_two.setItem(two);
+				Toast.makeText(B5_9_1_getArea.this, arg2, Toast.LENGTH_LONG).show();
 //				if (two != 0) {
 					class_ada_two.notifyDataSetChanged();
 					parent_id_right = view.getTag().toString();
-					HttpUtils.getGoodsClass(res_getAreaRight,parent_id_right);
+					bundle.putString("city_id", parent_id_right);//城市编号(地址联动的第二级)传给bundle
+					HttpUtils.getArea(res_getAreaRight,getSharedPreferenceValue("key"),parent_id_right);
 					lv_class_right.setVisibility(View.VISIBLE);
 					ll_right.setVisibility(View.VISIBLE);
 					ll_left.setLayoutParams(new LinearLayout.LayoutParams(
@@ -189,6 +200,7 @@ public class B5_9_1_getArea extends BaseActivity {
 						Map<String, String> map = new HashMap();
 						map.put("area_id", jsonItem.getString("area_id"));
 						map.put("area_name", jsonItem.getString("area_name"));
+						province[i]=jsonItem.getString("area_name");//省份的名字装到数组里面
 						data.add(map);
 					}
 					class_ada_one.notifyDataSetChanged();
@@ -258,7 +270,7 @@ public class B5_9_1_getArea extends BaseActivity {
 				JSONObject response) {
 			// TODO Auto-generated method stub
 			super.onSuccess(statusCode, headers, response);
-//			Tools.Log("res_getArea_response="+response);
+			Tools.Log("res_getAreaRight_response="+response);
 			m_scroll.smoothScrollTo(0, 0);//跳转到顶部
 			RequestDailog.closeDialog();
 			String error=null;

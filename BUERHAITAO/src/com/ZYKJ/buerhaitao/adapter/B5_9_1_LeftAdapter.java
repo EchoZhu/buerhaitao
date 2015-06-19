@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import cn.smssdk.statistics.NewAppReceiver;
+
 import com.ZYKJ.buerhaitao.UI.R;
 
 public class B5_9_1_LeftAdapter extends BaseAdapter {
@@ -59,6 +61,7 @@ public class B5_9_1_LeftAdapter extends BaseAdapter {
 //		view.setHeight((dm.heightPixels - 120) / (getCount() + 1));
 //		view.setHeight(dm.heightPixels/10);
 		view.setHeight(200);
+		Object area_name=data.get(position).get("area_name");
 		view.setText(data.get(position).get("area_name"));
 		view.setTextColor(Color.BLACK);
 		view.setTag(data.get(position).get("area_id"));

@@ -48,13 +48,6 @@
             android:text="@string/myactivity_tips"
             android:textColor="@color/theme_word_grey" />
 
-  <!--       <ImageButton
-            android:id="@+id/img_head"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/img_head" /> -->
             <com.ZYKJ.buerhaitao.utils.CircularImage
                 android:id="@+id/img_head"
                 android:layout_width="100dp"
@@ -183,7 +176,7 @@
 </RelativeLayout>
 
 <!-- 待付款+待发货+待收货+已收货 -->
-	<RelativeLayout
+	<LinearLayout
 		android:id="@+id/relativeLayout3"
 	    android:layout_below="@+id/relativeLayout2"
 	    android:layout_width="fill_parent"
@@ -195,10 +188,9 @@
 	      android:id="@+id/ll_NoPay"
 	      android:layout_width="wrap_content"
 	      android:layout_height="70dp"
-	      android:layout_alignParentLeft="true"
-	      android:layout_alignParentTop="true"
-	      android:layout_marginLeft="22dp"
-	      android:orientation="vertical" >
+	      android:orientation="vertical"
+	      android:layout_weight="1"
+	       >
 	      <ImageView
 	          android:layout_width="30dp"
 	          android:layout_height="30dp"
@@ -210,10 +202,7 @@
 	      <TextView
 	          android:layout_width="wrap_content"
 	          android:layout_height="wrap_content"
-	          android:layout_marginLeft="5dp"
-	          android:layout_marginRight="5dp"
-	          android:layout_marginTop="0dp"
-	          android:gravity="center"
+	          android:layout_gravity="center"
 	          android:text="@string/NoPay"
 	          android:textColor="@color/black" />
 	  </LinearLayout>
@@ -222,9 +211,7 @@
 	      android:id="@+id/ll_haveget"
 	      android:layout_width="wrap_content"
 	      android:layout_height="70dp"
-	      android:layout_alignParentRight="true"
-	      android:layout_alignParentTop="true"
-	      android:layout_marginRight="18dp"
+	      android:layout_weight="1"
 	      android:orientation="vertical" >
 
 	      <ImageView
@@ -238,10 +225,7 @@
 	      <TextView
 	          android:layout_width="wrap_content"
 	          android:layout_height="wrap_content"
-	          android:layout_marginLeft="5dp"
-	          android:layout_marginRight="5dp"
-	          android:layout_marginTop="0dp"
-	          android:gravity="center"
+	          android:layout_gravity="center"
 	          android:text="@string/haveget"
 	          android:textColor="@color/black" />
 	  </LinearLayout>
@@ -250,9 +234,7 @@
 	      android:id="@+id/ll_noget"
 	      android:layout_width="wrap_content"
 	      android:layout_height="70dp"
-	      android:layout_alignParentTop="true"
-	      android:layout_marginRight="39dp"
-	      android:layout_toLeftOf="@+id/ll_haveget"
+	      android:layout_weight="1"
 	      android:orientation="vertical" >
 
 	      <ImageView
@@ -266,10 +248,7 @@
 	      <TextView
 	          android:layout_width="wrap_content"
 	          android:layout_height="wrap_content"
-	          android:layout_marginLeft="5dp"
-	          android:layout_marginRight="5dp"
-	          android:layout_marginTop="0dp"
-	          android:gravity="center"
+	          android:layout_gravity="center"
 	          android:text="@string/noget"
 	          android:textColor="@color/black" />
 	  </LinearLayout>
@@ -278,9 +257,7 @@
 	      android:id="@+id/ll_notransport"
 	      android:layout_width="wrap_content"
 	      android:layout_height="70dp"
-	      android:layout_alignParentTop="true"
-	      android:layout_marginRight="31dp"
-	      android:layout_toLeftOf="@+id/ll_noget"
+	      android:layout_weight="1"
 	      android:orientation="vertical" >
 
 	      <ImageView
@@ -294,15 +271,12 @@
 	      <TextView
 	          android:layout_width="wrap_content"
 	          android:layout_height="wrap_content"
-	          android:layout_marginLeft="5dp"
-	          android:layout_marginRight="5dp"
-	          android:layout_marginTop="0dp"
-	          android:gravity="center"
+	          android:layout_gravity="center"
 	          android:text="@string/notransport"
 	          android:textColor="@color/black" />
 	  </LinearLayout>
 	    
-	</RelativeLayout>
+	</LinearLayout>
 	<!-- 我的收货地址 -->
      <RelativeLayout
          android:id="@+id/my_address_page"

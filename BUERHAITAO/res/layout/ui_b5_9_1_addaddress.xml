@@ -63,6 +63,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/bg_edittext"
             android:ems="10" />
 
         <TextView
@@ -100,8 +102,10 @@
             android:id="@+id/et_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/bg_edittext"
             android:ems="10" />
 
     </RelativeLayout>
@@ -138,9 +142,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/bg_edittext"
             android:ems="10" >
 
-            <requestFocus />
         </EditText>
 
     </RelativeLayout>
@@ -210,11 +215,13 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/et_someone"
+            android:id="@+id/et_addressDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/bg_edittext"
             android:ems="10" />
 
     </RelativeLayout>
@@ -243,7 +250,7 @@
     
     
     <RelativeLayout
-    android:id="@+id/addNewAddress"
+    android:id="@+id/rl_setDefaultAddress"
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:layout_alignParentBottom="true"

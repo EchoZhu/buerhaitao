@@ -101,13 +101,20 @@ public class HttpUtils {
 	}
 
 	/**
-	 * 3获取首页轮播图
+	 * 3获取首页信息
 	 * 
 	 * @param res
 	 */
-	public static void getScreenList(AsyncHttpResponseHandler res) {
-		String url = base_url + "getSpecialList";
-		client.get(url, res);
+	public static void getFirstList(AsyncHttpResponseHandler res,String city_id ,String lng ,String lat) {
+//		String url = base_url + "getSpecialList";
+//		client.get(url, res);
+		String url = null;
+		url = base_url + "index.php?act=index"+"&city_id="+city_id+"&lng="+lng+"&lat="+lat;
+		RequestParams requestParams  = new RequestParams();
+		requestParams.put("city_id", city_id);
+		requestParams.put("lng", lng);
+		requestParams.put("lat", lat);
+		client.post(url,requestParams,res);
 	}
 
 	/**
@@ -124,14 +131,13 @@ public class HttpUtils {
 	}
 
 	/**
-	 * 5获取商品分类 parent_id默认为0
+	 * 5获取商品分类 gc_id默认为0
 	 * 
 	 * @param res
-	 * @param parent_id
+	 * @param gc_id
 	 */
-	public static void getGoodsClass(AsyncHttpResponseHandler res,
-			String parent_id) {
-		String url = base_url + "getGoodsClass&parent_id=" + parent_id;
+	public static void getGoodsClass(AsyncHttpResponseHandler res,String gc_id) {
+		String url = base_url + "index.php?act=goods_class"+(gc_id != null?"&gc_id="+gc_id:"");
 		client.get(url, res);
 	}
 
@@ -312,58 +318,83 @@ public class HttpUtils {
 	}
 
 	/**
-	 * 18添加地址
+	 * 地址添加
 	 * 
-	 * @param res
-	 * @param true_name
-	 *            真实修改
-	 * @param area_id
-	 *            地区id
-	 * @param address
-	 *            详细地址
-	 * @param mob_phone
-	 *            手机
+	    key 当前登录令牌
+	    true_name 姓名
+	    city_id 城市编号(地址联动的第二级)
+	    area_id 地区编号(地址联动的第三级)
+	    area_info 地区信息，例：天津 天津市 红桥区
+	    street 街道 例如:南大街
+	    address 地址信息，例：水游城8层
+	    zip 邮编
+	    mob_phone 手机
 	 */
 	public static void addAddress(AsyncHttpResponseHandler res,
-			String true_name, String area_id, String address, String mob_phone) {
-		String url = base_url + "addAddress&true_name=" + true_name
-				+ "&area_id=" + area_id + "&address=" + address + "&mob_phone="
-				+ mob_phone;
-		client.get(url, res);
+			String key, String true_name, String city_id, String area_id,String area_info,String street,String address,String zip,String mob_phone) {
+		String url = base_url + "index.php?act=member_address&op=address_add";
+		RequestParams params =new RequestParams();
+		params.put("key", key);
+		params.put("true_name", true_name);
+		params.put("city_id", city_id);
+		params.put("area_id", area_id);
+		params.put("area_info", area_info);
+		params.put("street", street);
+		params.put("address", address);
+		params.put("zip", zip);
+		params.put("mob_phone", mob_phone);
+		client.post(url, params, res);
 	}
 
 	/**
 	 * 19修改地址
 	 * 
-	 * @param res
-	 * @param true_name
-	 *            收货人
-	 * @param address
-	 *            详细地址
-	 * @param mob_phone
-	 *            手机
+
+
+    key 当前登录令牌
+    address_id 地址编号
+    true_name 姓名
+    area_id 地区编号
+    city_id 城市编号
+    area_info 地区信息，例：天津 天津市 红桥区
+    street 街道 例:南大街
+    address 地址信息，例：水游城8层
+    zip 邮编
+    mob_phone 手机
+
+
 	 */
-	public static void changeAddress(AsyncHttpResponseHandler res,
-			String true_name, String area_id, String address, String mob_phone,
-			String address_id) {
-		String url = base_url + "changeAddress&true_name=" + true_name
-				+ "&address=" + address + "&mob_phone=" + mob_phone
-				+ "&area_id=" + area_id + "&address_id=" + address_id;
-		client.get(url, res);
+	public static void changeAddress(AsyncHttpResponseHandler res,String key,String address_id,
+			String true_name, String area_id,String city_id, String address, String area_info,
+			String street,String zip,String mob_phone) {
+		String url = base_url + "index.php?act=member_address&op=address_edit";
+		RequestParams params =new RequestParams();
+		params.put("key", key);
+		params.put("address_id", address_id);
+		params.put("true_name", true_name);
+		params.put("area_id", area_id);
+		params.put("city_id", city_id);
+		params.put("area_info", area_info);
+		params.put("street", street);
+		params.put("address", address);
+		params.put("zip", zip);
+		params.put("mob_phone", mob_phone);
+		client.post(url, params, res);
 	}
 
 	/**
-	 * 20删除地址
+	 * 删除地址
 	 * 
 	 * @param res
 	 * @param address_id
 	 *            地址id
 	 */
-	public static void delAddress(AsyncHttpResponseHandler res,
-			String address_id) {
-		String url = base_url + "delAddress&address_id=" + address_id;
-		Log.i("del-addr", url);
-		client.get(url, res);
+	public static void delAddress(AsyncHttpResponseHandler res,String key,String address_id) {
+		String url = base_url + "index.php?act=member_address&op=address_del";
+		RequestParams pareParams =new RequestParams();
+		pareParams.put("key", key);
+		pareParams.put("address_id", address_id);
+		client.post(url, pareParams, res);
 	}
 
 	/**
@@ -377,16 +408,18 @@ public class HttpUtils {
 	}
 
 	/**
-	 * 22设置默认地址
+	 * 设置默认地址
 	 * 
 	 * @param res
+	 * @param key
 	 * @param address_id
 	 */
-	public static void setDefaultAddress(AsyncHttpResponseHandler res,
-			String address_id) {
-		String url = base_url + "setDefaultAddress&address_id=" + address_id;
-		Log.i("landousurl", url);
-		client.get(url, res);
+	public static void setDefaultAddress(AsyncHttpResponseHandler res,String key,String address_id) {
+		String url = base_url + "index.php?act=member_address&op=address_default";
+		RequestParams params = new RequestParams();
+		params.put("key", key);
+		params.put("address_id", address_id);
+		client.post(url, params, res);
 	}
 
 	/**
@@ -641,21 +674,37 @@ public class HttpUtils {
 	}
 
 	/**
-	 * 38 提交积分订单
+	 * 积分兑换
 	 * 
 	 * @param res
-	 * @param pgoods_id
-	 * @param count
-	 * @param ship_method
-	 * @param address_id
+	 * @param key           登录令牌
+	 * @param pgoods_id     商品id
+	 * @param address_id    收货地址id
+	 * @param pcart_message 留言
+	 * 
 	 */
 	public static void addPointsOrder(AsyncHttpResponseHandler res,
-			String pgoods_id, String count, String ship_method,
+			String key, String pgoods_id, String pcart_message,
 			String address_id) {
-		String url = base_url + "addPointsOrder&pgoods_id=" + pgoods_id
-				+ "&count=" + count + "&ship_method=" + ship_method
-				+ "&address_id=" + address_id;
-		Log.i("landousjson", url);
+
+		String url = null;
+		url = base_url + "index.php?act=member_points&op=exchange";
+		RequestParams requestParams  = new RequestParams();
+		requestParams.put("key", key);
+		requestParams.put("pgoods_id", pgoods_id);
+		requestParams.put("pcart_message", pcart_message);
+		requestParams.put("address_id", address_id);
+		client.post(url,requestParams,res);
+	}
+	/**
+	 * 积分兑换记录
+	 * @param res
+	 * @param key
+	 */
+	public static void exchangerecord(AsyncHttpResponseHandler res,String key) {
+		
+		String url = null;
+		url = base_url + "index.php?act=member_points&op=record"+"&key="+key;
 		client.get(url, res);
 	}
 
@@ -703,10 +752,11 @@ public class HttpUtils {
 	}
 
 	/**
-	 * 42 上传头像保存
+	 * 上传头像保存
 	 * 
 	 * @param res
-	 * @param member_avatar
+	 * @param avatar
+	 * @param key
 	 */
 	public static void saveAvatar(AsyncHttpResponseHandler res,String avatar,String key ) {
 		String url = base_url + "index.php?act=member_index&op=avatar_save";
@@ -747,15 +797,18 @@ public class HttpUtils {
 		client.get(url, res);
 	}
 	/**
-	 * 钻石充值接口
+	 * 充值接口
 	 * 
 	 * @param res
 	 */
-	public static void addGemsPoints(AsyncHttpResponseHandler res, int gemsNumbers) {
-		String url = base_url + "subtractCheckPoints&gemsNumbers="+gemsNumbers;
-		client.get(url, res);
+	public static void recharge(AsyncHttpResponseHandler res, String key, String pdr_amount,String channel) {
+		String url = base_url + "index.php?act=member_predeposit&op=recharge_add";
+		RequestParams requestParams = new RequestParams();
+		requestParams.put("key", key);
+		requestParams.put("pdr_amount", pdr_amount);
+		requestParams.put("channel ", channel );
+		client.post(url, res);
 	}
-
 	/**
 	 * 45 积分订单确认收货
 	 * 
@@ -764,14 +817,11 @@ public class HttpUtils {
 	 */
 	public static void receivePointsOrder(AsyncHttpResponseHandler res,
 			String point_orderid) {
-		String url = base_url + "receivePointsOrder&point_orderid="
-				+ point_orderid;
+		String url = base_url + "receivePointsOrder&point_orderid="+ point_orderid;
 		client.get(url, res);
-
 	}
-
 	/**
-	 * 46.获取支付宝秘钥
+	 *  获取支付宝秘钥
 	 * 
 	 * @param res
 	 */
@@ -856,18 +906,141 @@ public class HttpUtils {
 		String url = base_url + "payOrder&pay_sn=" + pay_sn;
 		client.get(url, res);
 	}
+	/**
+	 * 上传头像
+	 * @param res
+	 * @param key
+	 * @param name
+	 */
 
-	public static void update(AsyncHttpResponseHandler res, String key,String name ) {
+	public static void update(AsyncHttpResponseHandler res, String key,String name,File file ) {
 		RequestParams params = new RequestParams();
 		try {
 			params.put("key", key);
 			params.put("name", name);
-			params.put("FILES", new File(name));
+			params.put("avatar",file);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} // Upload a File
 		String url = base_url + "index.php?act=member_index&op=avatar_upload";
+//		String url = base_url + "index.php?act=member_circle&op=image_upload";
 		client.post(url, params, res);
 	}
+	
+	/**
+	 * 54 猜你喜欢
+	 * @param lng 经度
+	 * @param lat 纬度
+	 * @param city_id 城市id
+	 * @param curpage 当前页码
+	 */
+	public static void getCaiNiLike(AsyncHttpResponseHandler res,String lng,String lat,String city_id,String curpage) {
+		String url = base_url + "index.php?act=goods&op=goods_like_list"+"&lng="+lng+"&lat="+lat+"&city_id="+city_id+"&curpage="+curpage;
+		client.get(url, res);
+//		String url = base_url + "index.php?act=member_points&op=points_log";
+//		RequestParams requestParams =new RequestParams();
+//		requestParams.put("key", key);
+//		client.post(url, requestParams, res);
+		
+	}
+	/**
+	 * 55 每日好店
+	 * @param page 每页数量
+	 * @param curpage 当前页码
+	 * @param city_id 城市id
+	 * @param lng 经度
+	 * @param lat 纬度
+	 */
+	public static void getGoodStore(AsyncHttpResponseHandler res,String page,String curpage,String city_id,String lng,String lat) {
+		String url = base_url + "index.php?act=store&op=good_store"+"&page="+page+"&curpage="+curpage+"&city_id="+city_id+"&lng="+lng+"&lat="+lat;
+		client.get(url, res);
+		
+	}
+	
+	/**
+	 * 上传晒单圈图片
+	 * @param res
+	 * @param key
+	 * @param name
+	 */
+	
+	public static void uploadshaidanquan(AsyncHttpResponseHandler res, String key,String name,File file ) {
+		RequestParams params = new RequestParams();
+		try {
+			params.put("key", key);
+			params.put("name", name);
+			params.put("avatar",file);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // Upload a File
+		String url = base_url + "index.php?act=member_circle&op=image_upload";
+//		String url = base_url + "index.php?act=member_index&op=avatar_upload";
+		client.post(url, params, res);
+	}
+/**
+ * 晒单圈-发布
+ * @param res
+ * @param key
+ * @param description
+ * @param image
+ */
+	
+	public static void shaidanquanfabu(AsyncHttpResponseHandler res, String key,String description,String image) {
+		RequestParams params = new RequestParams();
+		params.put("key", key);
+		params.put("description", description);
+		params.put("image",image);
+		String url = base_url + "index.php?act=member_circle&op=publish";
+		client.post(url, params, res);
+	}
+	/**
+	 * 晒单圈-我发布的
+	 * @param res
+	 * @param key
+	 */
+	public static void shaidanquan_mypublish(AsyncHttpResponseHandler res, String key) {
+		String url = base_url + "index.php?act=member_circle&op=my_publish"+"&key="+key;
+		client.get(url, res);
+	}
+	/**
+	 * 上传身份证
+	 * @param res
+	 * @param key
+	 * @param name
+	 */
+	public static void uploadIDcard(AsyncHttpResponseHandler res, String key,String name,File file ) {
+		RequestParams params = new RequestParams();
+		try {
+			params.put("key", key);
+			params.put("name", name);
+			params.put("avatar",file);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // Upload a File
+		String url = base_url + "index.php?act=member_index&op=idcard_upload";
+		client.post(url, params, res);
+	}
+	/**
+	 * 买家实名认证
+	 * @param res
+	 * @param key
+	 * @param truename
+	 * @param birthday
+	 * @param address
+	 * @param idcard
+	 */
+	public static void certificate(AsyncHttpResponseHandler res, String key,String truename ,String birthday,String address,String idcard) {
+		String url = base_url + "index.php?act=member_index&op=identification";
+		RequestParams params = new RequestParams();
+		params.put("key",key);
+		params.put("truename",truename);
+		params.put("birthday",birthday);
+		params.put("address",address);
+		params.put("idcard",idcard);
+		client.post(url, params,res);
+	}
+	
 }

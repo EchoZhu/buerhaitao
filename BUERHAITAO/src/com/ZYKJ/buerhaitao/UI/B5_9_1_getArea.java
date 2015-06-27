@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -42,7 +43,6 @@ public class B5_9_1_getArea extends BaseActivity {
 	private ListViewForScroll lv_class_middle = null;
 	private ListViewForScroll lv_class_right = null;
 	private int one = 0, two = 0;
-	String province[]=new String [30];
 	// 以上数据用不到
 //	B0_ClassLeftAdapter class_ada_one;
 //	B0_ClassMiddle_Adapter class_ada_two;
@@ -58,10 +58,18 @@ public class B5_9_1_getArea extends BaseActivity {
 	private LinearLayout ll_middle;
 	private LinearLayout ll_right;
 	private ScrollView m_scroll;
-	private Bundle bundle ;
 	
 	String parent_id_middle = "";
 	String parent_id_right = "";
+	
+	String province[];//省
+	String city[];//市
+	String area[];//区
+	
+	String provincesString,cityString,areaString;
+	String city_idString,area_idString;
+	
+	Intent it;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -69,7 +77,7 @@ public class B5_9_1_getArea extends BaseActivity {
 		initView(R.layout.ui_b5_9_1_getarea);
 		
 		RequestDailog.showDialog(this, "正在请求数据");
-		bundle=new Bundle();
+		it=getIntent();
 		if (data.size() == 0) {
 			HttpUtils.getArea(res_getArea,getSharedPreferenceValue("key"),"");
 		}
@@ -104,6 +112,8 @@ public class B5_9_1_getArea extends BaseActivity {
 				ON_LISTVIEW = 1;
 				parent_id_middle = view.getTag().toString();
 				RequestDailog.showDialog(B5_9_1_getArea.this, "正在请求数据,请稍后");
+//				bundle.putString("province", province[i]);//bundle1
+				provincesString=province[i];
 				HttpUtils.getArea(res_getAreaMiddle,getSharedPreferenceValue("key"),parent_id_middle);
 				one = i;
 				class_ada_one.setItem(one);
@@ -128,11 +138,13 @@ public class B5_9_1_getArea extends BaseActivity {
 					long arg3) {
 				two = arg2;
 				class_ada_two.setItem(two);
-				Toast.makeText(B5_9_1_getArea.this, arg2, Toast.LENGTH_LONG).show();
 //				if (two != 0) {
 					class_ada_two.notifyDataSetChanged();
 					parent_id_right = view.getTag().toString();
-					bundle.putString("city_id", parent_id_right);//城市编号(地址联动的第二级)传给bundle
+//					bundle.putString("city", city[arg2]);//bundle2
+					cityString= city[arg2];
+//					bundle.putString("city_id", parent_id_right);//城市编号(地址联动的第二级)传给bundle
+					city_idString=parent_id_right;
 					HttpUtils.getArea(res_getAreaRight,getSharedPreferenceValue("key"),parent_id_right);
 					lv_class_right.setVisibility(View.VISIBLE);
 					ll_right.setVisibility(View.VISIBLE);
@@ -161,9 +173,19 @@ public class B5_9_1_getArea extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view, int arg2,
 					long arg3) {
-				Intent it = new Intent(B5_9_1_getArea.this,B5_9_1_addAddress.class);
-				it.putExtra("gc_id", view.getTag() + "");
+//				bundle.putString("area_id", view.getTag().toString());
+				area_idString=view.getTag().toString();
+//				bundle.putString("area", area[arg2]);//bundle2
+				areaString=area[arg2];
+//				Intent it = new Intent(B5_9_1_getArea.this,B5_9_1_addAddress.class);
+//				it.putExtras(bundle);
+				it.putExtra("province", provincesString);
+				it.putExtra("city", cityString);
+				it.putExtra("area", areaString);
+				it.putExtra("city_id", city_idString);
+				it.putExtra("area_id", area_idString);
 				setResult(GetArea, it);
+				B5_9_1_getArea.this.finish();
 				overridePendingTransition(R.anim.push_right_in,
 						R.anim.push_right_out);
 			}
@@ -178,7 +200,7 @@ public class B5_9_1_getArea extends BaseActivity {
 				JSONObject response) {
 			// TODO Auto-generated method stub
 			super.onSuccess(statusCode, headers, response);
-			Tools.Log("res_getArea_response="+response);
+//			Tools.Log("res_getArea_response="+response);
 			RequestDailog.closeDialog();
 			String error=null;
 			JSONObject datas=null;
@@ -195,12 +217,15 @@ public class B5_9_1_getArea extends BaseActivity {
 				JSONArray array;
 				try {
 					array = datas.getJSONArray("area_list");
+				    province=new String [array.length()];
 					for (int i = 0; i < array.length(); i++) {
 						JSONObject jsonItem = array.getJSONObject(i);
 						Map<String, String> map = new HashMap();
 						map.put("area_id", jsonItem.getString("area_id"));
 						map.put("area_name", jsonItem.getString("area_name"));
+						
 						province[i]=jsonItem.getString("area_name");//省份的名字装到数组里面
+						
 						data.add(map);
 					}
 					class_ada_one.notifyDataSetChanged();
@@ -224,7 +249,7 @@ public class B5_9_1_getArea extends BaseActivity {
 				JSONObject response) {
 			// TODO Auto-generated method stub
 			super.onSuccess(statusCode, headers, response);
-//			Tools.Log("res_getArea_response="+response);
+//			Tools.Log("Middle_response="+response);
 			m_scroll.smoothScrollTo(0, 0);//跳转到顶部
 			RequestDailog.closeDialog();
 			String error=null;
@@ -242,11 +267,13 @@ public class B5_9_1_getArea extends BaseActivity {
 				JSONArray array;
 				try {
 					array = datas.getJSONArray("area_list");
+					city=new String [array.length()];
 					for (int i = 0; i < array.length(); i++) {
 						JSONObject jsonItem = array.getJSONObject(i);
 						Map<String, String> map = new HashMap();
 						map.put("area_id", jsonItem.getString("area_id"));
 						map.put("area_name", jsonItem.getString("area_name"));
+						city[i]=jsonItem.getString("area_name");
 						dataMiddle.add(map);
 					}
 					class_ada_two.notifyDataSetChanged();
@@ -270,7 +297,7 @@ public class B5_9_1_getArea extends BaseActivity {
 				JSONObject response) {
 			// TODO Auto-generated method stub
 			super.onSuccess(statusCode, headers, response);
-			Tools.Log("res_getAreaRight_response="+response);
+//			Tools.Log("Right_response="+response);
 			m_scroll.smoothScrollTo(0, 0);//跳转到顶部
 			RequestDailog.closeDialog();
 			String error=null;
@@ -288,11 +315,13 @@ public class B5_9_1_getArea extends BaseActivity {
 				JSONArray array;
 				try {
 					array = datas.getJSONArray("area_list");
+					area=new String [array.length()];
 					for (int i = 0; i < array.length(); i++) {
 						JSONObject jsonItem = array.getJSONObject(i);
 						Map<String, String> map = new HashMap();
 						map.put("area_id", jsonItem.getString("area_id"));
 						map.put("area_name", jsonItem.getString("area_name"));
+						area[i]=jsonItem.getString("area_name");
 						dataRight.add(map);
 					}
 					class_ada_three.notifyDataSetChanged();
